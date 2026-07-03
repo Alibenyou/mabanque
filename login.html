@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion - Ma Banque</title>
+    <link rel="stylesheet" href="css/auth.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-logo">
+                <i class="fas fa-university"></i>
+                <h1>Ma Banque</h1>
+                <p>Espace client sécurisé</p>
+            </div>
+
+            <!-- Onglets Connexion / Inscription -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">
+                    <i class="fas fa-sign-in-alt"></i> Connexion
+                </button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">
+                    <i class="fas fa-user-plus"></i> Inscription
+                </button>
+            </div>
+
+            <!-- FORMULAIRE CONNEXION -->
+            <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="loginEmail" placeholder="votre@email.com" required />
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Mot de passe</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required />
+                </div>
+                <button type="submit" class="btn-auth">
+                    <i class="fas fa-sign-in-alt"></i> Se connecter
+                </button>
+                <div class="auth-error" id="loginError"></div>
+            </form>
+
+            <!-- FORMULAIRE INSCRIPTION -->
+            <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Prénom</label>
+                        <input type="text" id="regFirstName" placeholder="Jean" required />
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Nom</label>
+                        <input type="text" id="regLastName" placeholder="Dupont" required />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Téléphone</label>
+                    <input type="tel" id="regPhone" placeholder="0612345678" required />
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" id="regEmail" placeholder="votre@email.com" required />
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Mot de passe</label>
+                    <input type="password" id="regPassword" placeholder="••••••••" required minlength="6" />
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-check-circle"></i> Confirmer</label>
+                    <input type="password" id="regConfirmPassword" placeholder="••••••••" required />
+                </div>
+                <button type="submit" class="btn-auth">
+                    <i class="fas fa-user-plus"></i> Créer mon compte
+                </button>
+                <div class="auth-error" id="registerError"></div>
+            </form>
+
+            <div class="auth-footer">
+                <small>🔒 Connexion sécurisée via API + Supabase</small>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api-client.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

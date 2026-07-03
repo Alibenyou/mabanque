@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin - Ma Banque</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- ===== BARRE DE NAVIGATION ===== -->
+    <nav class="navbar admin-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-university"></i>
+                <span>Ma Banque - Admin</span>
+            </div>
+            <div class="nav-links">
+                <button class="nav-btn active" data-tab="dashboard">
+                    <i class="fas fa-chart-pie"></i> Dashboard
+                </button>
+                <button class="nav-btn" data-tab="accounts">
+                    <i class="fas fa-users"></i> Tous les comptes
+                </button>
+                <button class="nav-btn" data-tab="transactions">
+                    <i class="fas fa-exchange-alt"></i> Transactions
+                </button>
+                <button class="nav-btn" data-tab="users">
+                    <i class="fas fa-user-shield"></i> Utilisateurs
+                </button>
+            </div>
+            <div class="nav-user">
+                <span id="adminName">Admin</span>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== CONTENU PRINCIPAL ===== -->
+    <main class="main-content">
+
+        <!-- ===== ONGLET DASHBOARD ===== -->
+        <section id="dashboard" class="tab-content active">
+            <h1><i class="fas fa-chart-pie"></i> Dashboard Administrateur</h1>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total utilisateurs</span>
+                        <span class="stat-value" id="totalUsers">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fas fa-wallet"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total comptes</span>
+                        <span class="stat-value" id="totalAccounts">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon gold"><i class="fas fa-coins"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Solde global</span>
+                        <span class="stat-value" id="totalBalance">0 FCFA</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon red"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Transactions totales</span>
+                        <span class="stat-value" id="totalTransactions">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dernières transactions -->
+            <div class="card">
+                <h3><i class="fas fa-clock"></i> Dernières transactions</h3>
+                <div id="recentTransactions" class="history-list">
+                    <div class="loading">Chargement...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ONGLET COMPTES ===== -->
+        <section id="accounts" class="tab-content">
+            <h1><i class="fas fa-users"></i> Tous les comptes</h1>
+            
+            <div class="section-header">
+                <div class="search-bar">
+                    <input type="text" id="searchAccount" placeholder="🔍 Rechercher un compte..." oninput="filterAccounts()" />
+                </div>
+                <button class="btn-primary" onclick="exportAccounts()">
+                    <i class="fas fa-file-export"></i> Exporter
+                </button>
+            </div>
+            
+            <div id="adminAccountsList" class="accounts-grid">
+                <div class="loading">Chargement...</div>
+            </div>
+        </section>
+
+        <!-- ===== ONGLET TRANSACTIONS ===== -->
+        <section id="transactions" class="tab-content">
+            <h1><i class="fas fa-exchange-alt"></i> Toutes les transactions</h1>
+            
+            <div class="filters">
+                <select id="filterType" onchange="loadAllTransactions()">
+                    <option value="all">Tous les types</option>
+                    <option value="DEPOSIT">Dépôts</option>
+                    <option value="WITHDRAWAL">Retraits</option>
+                </select>
+                <input type="date" id="filterDate" onchange="loadAllTransactions()" />
+                <button class="btn-refresh" onclick="loadAllTransactions()">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+            
+            <div id="allTransactionsList" class="history-list">
+                <div class="loading">Chargement...</div>
+            </div>
+        </section>
+
+        <!-- ===== ONGLET UTILISATEURS ===== -->
+        <section id="users" class="tab-content">
+            <h1><i class="fas fa-user-shield"></i> Gestion des utilisateurs</h1>
+            
+            <div id="usersList" class="users-grid">
+                <div class="loading">Chargement...</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== MODAL: Détails compte ===== -->
+    <div id="accountDetailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-circle"></i> Détails du compte</h2>
+                <span class="modal-close" onclick="closeModal('accountDetailModal')">&times;</span>
+            </div>
+            <div id="accountDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- ===== NOTIFICATION ===== -->
+    <div id="notification" class="notification"></div>
+    <script src="js/api-client.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mon compte - Ma Banque</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+    <!-- ===== BARRE DE NAVIGATION ===== -->
+    <nav class="navbar user-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-university"></i>
+                <span>Ma Banque</span>
+            </div>
+            <div class="nav-links">
+                <button class="nav-btn active" data-tab="dashboard">
+                    <i class="fas fa-home"></i> Mon compte
+                </button>
+                <button class="nav-btn" data-tab="transactions">
+                    <i class="fas fa-exchange-alt"></i> Opérations
+                </button>
+                <button class="nav-btn" data-tab="history">
+                    <i class="fas fa-clock"></i> Historique
+                </button>
+                <button class="nav-btn" data-tab="profile">
+                    <i class="fas fa-user"></i> Profil
+                </button>
+            </div>
+            <div class="nav-user">
+                <span id="userName">Client</span>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== CONTENU PRINCIPAL ===== -->
+    <main class="main-content">
+
+        <!-- ===== ONGLET TABLEAU DE BORD ===== -->
+        <section id="dashboard" class="tab-content active">
+            <h1><i class="fas fa-home"></i> Mon tableau de bord</h1>
+            
+            <!-- Mes comptes -->
+            <div class="card">
+                <h3><i class="fas fa-wallet"></i> Mes comptes bancaires</h3>
+                <div id="myAccounts" class="accounts-grid">
+                    <div class="loading">Chargement de vos comptes...</div>
+                </div>
+            </div>
+
+            <!-- Dernières opérations -->
+            <div class="card">
+                <h3><i class="fas fa-clock"></i> Dernières opérations</h3>
+                <div id="myRecentTransactions" class="history-list">
+                    <div class="empty-state">Aucune transaction récente</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ONGLET OPÉRATIONS ===== -->
+        <section id="transactions" class="tab-content">
+            <h1><i class="fas fa-exchange-alt"></i> Opérations</h1>
+            
+            <!-- Sélection du compte -->
+            <div class="card">
+                <div class="form-group">
+                    <label>Compte à utiliser</label>
+                    <select id="userAccountSelect" onchange="updateUserBalance()">
+                        <option value="">-- Choisir un compte --</option>
+                    </select>
+                </div>
+                <div id="userBalanceDisplay" class="balance-display" style="display:none;">
+                    <span class="balance-label">Mon solde</span>
+                    <span class="balance-amount" id="userBalanceAmount">0 FCFA</span>
+                </div>
+            </div>
+
+            <!-- Opérations -->
+            <div class="operations-grid">
+                <!-- Dépôt -->
+                <div class="operation-card deposit-card">
+                    <h3><i class="fas fa-arrow-down" style="color:#28a745;"></i> Dépôt</h3>
+                    <div class="form-group">
+                        <label>Montant (FCFA)</label>
+                        <input type="number" id="userDepositAmount" placeholder="10000" min="1" />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" id="userDepositDesc" placeholder="Dépôt d'argent" />
+                    </div>
+                    <button class="btn-deposit" onclick="handleUserDeposit()">
+                        <i class="fas fa-check"></i> Déposer
+                    </button>
+                </div>
+
+                <!-- Retrait -->
+                <div class="operation-card withdraw-card">
+                    <h3><i class="fas fa-arrow-up" style="color:#dc3545;"></i> Retrait</h3>
+                    <div class="form-group">
+                        <label>Montant (FCFA)</label>
+                        <input type="number" id="userWithdrawAmount" placeholder="5000" min="1" />
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" id="userWithdrawDesc" placeholder="Retrait d'argent" />
+                    </div>
+                    <button class="btn-withdraw" onclick="handleUserWithdraw()">
+                        <i class="fas fa-check"></i> Retirer
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ONGLET HISTORIQUE ===== -->
+        <section id="history" class="tab-content">
+            <h1><i class="fas fa-clock"></i> Mon historique</h1>
+            
+            <div class="card">
+                <div class="form-group">
+                    <label>Compte</label>
+                    <select id="userHistoryAccount" onchange="loadUserHistory()">
+                        <option value="">-- Choisir un compte --</option>
+                    </select>
+                </div>
+                <div id="userHistoryList" class="history-list">
+                    <div class="empty-state">Sélectionnez un compte</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== ONGLET PROFIL ===== -->
+        <section id="profile" class="tab-content">
+            <h1><i class="fas fa-user"></i> Mon profil</h1>
+            
+            <div class="card">
+                <div class="profile-info">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user-circle fa-5x" style="color:#667eea;"></i>
+                    </div>
+                    <div class="profile-details">
+                        <p><strong>Nom:</strong> <span id="profileName"></span></p>
+                        <p><strong>Email:</strong> <span id="profileEmail"></span></p>
+                        <p><strong>Téléphone:</strong> <span id="profilePhone"></span></p>
+                        <p><strong>Date d'inscription:</strong> <span id="profileDate"></span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== NOTIFICATION ===== -->
+    <div id="notification" class="notification"></div>
+
+    <!-- ===== CHARGEMENT ===== -->
+    <div id="loadingOverlay" class="loading-overlay" style="display:none;">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin fa-3x"></i>
+            <p>Traitement en cours...</p>
+        </div>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="js/api-client.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/user.js"></script>
+</body>
+</html>

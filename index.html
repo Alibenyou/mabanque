@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🏦 Ma Banque - Accueil</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+        /* Styles spécifiques à la page d'accueil */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--white);
+        }
+
+        .hero-section .logo-icon {
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .hero-section .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-section .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 700px;
+            margin: 2rem 0;
+        }
+
+        .hero-section .feature-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 1rem;
+            border-radius: var(--radius);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .hero-section .feature-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .hero-section .feature-item i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .hero-section .feature-item span {
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .btn-hero {
+            padding: 14px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-hero-primary {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        .btn-hero-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-hero-secondary {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-hero-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .footer-credit {
+            margin-top: 3rem;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        /* Animation de chargement */
+        .loading-spinner-small {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 0.8s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-message {
+            margin-top: 1.5rem;
+            padding: 12px 24px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+
+        .status-message.show {
+            display: inline-flex;
+        }
+
+        .status-message i {
+            font-size: 1.2rem;
+        }
+
+        .status-message.success i { color: #51cf66; }
+        .status-message.error i { color: #ff6b6b; }
+        .status-message.info i { color: #ffd43b; }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            .hero-section .subtitle {
+                font-size: 1.1rem;
+            }
+            .hero-section .features {
+                grid-template-columns: 1fr 1fr;
+            }
+            .btn-hero {
+                padding: 12px 28px;
+                font-size: 1rem;
+                width: 100%;
+                justify-content: center;
+            }
+            .hero-buttons {
+                flex-direction: column;
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+            .hero-section .features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero-section">
+        <!-- Logo -->
+        <div class="logo-icon">
+            <i class="fas fa-university"></i>
+        </div>
+
+        <!-- Titre -->
+        <h1>Ma Banque</h1>
+        <p class="subtitle">
+            Gérez vos comptes bancaires en toute sécurité.<br />
+            Dépôts, retraits, historique en temps réel.
+        </p>
+
+        <!-- Fonctionnalités -->
+        <div class="features">
+            <div class="feature-item">
+                <i class="fas fa-wallet"></i>
+                <span>Comptes bancaires</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-arrow-down"></i>
+                <span>Dépôts</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-arrow-up"></i>
+                <span>Retraits</span>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-clock"></i>
+                <span>Historique</span>
+            </div>
+        </div>
+
+        <!-- Statut de session -->
+        <div id="sessionStatus" class="status-message">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Vérification de la session...</span>
+        </div>
+
+        <!-- Boutons d'action -->
+        <div class="hero-buttons" id="heroButtons">
+            <a href="login.html" class="btn-hero btn-hero-primary">
+                <i class="fas fa-sign-in-alt"></i> Se connecter
+            </a>
+            <a href="login.html#register" class="btn-hero btn-hero-secondary">
+                <i class="fas fa-user-plus"></i> Créer un compte
+            </a>
+        </div>
+
+        <!-- Pied de page -->
+        <div class="footer-credit">
+            <i class="fas fa-lock" style="margin-right: 6px;"></i>
+            Connexion sécurisée &bull; <span id="currentYear"></span> Ma Banque
+        </div>
+    </section>
+
+    <script>
+        // ============================================
+        // GESTION DE LA PAGE D'ACCUEIL
+        // ============================================
+
+        // Afficher l'année en cours
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Gestion du hash dans l'URL (pour l'inscription)
+        (function handleHash() {
+            if (window.location.hash === '#register') {
+                // Rediriger vers login.html avec le paramètre d'onglet
+                window.location.href = 'login.html?tab=register';
+            }
+        })();
+
+        // ============================================
+        // VÉRIFICATION DE SESSION (Redirection automatique)
+        // ============================================
+
+        (async function checkSessionAndRedirect() {
+            const statusEl = document.getElementById('sessionStatus');
+            const buttonsEl = document.getElementById('heroButtons');
+
+            try {
+                // Vérifier si le token existe dans localStorage
+                const token = localStorage.getItem('authToken');
+                const userStr = localStorage.getItem('user');
+
+                if (!token || !userStr) {
+                    // Pas de session → afficher les boutons de connexion
+                    statusEl.className = 'status-message info show';
+                    statusEl.innerHTML = `
+                        <i class="fas fa-info-circle"></i>
+                        <span>Vous n'êtes pas connecté. Connectez-vous ou créez un compte.</span>
+                    `;
+                    buttonsEl.style.display = 'flex';
+                    return;
+                }
+
+                // Tenter de vérifier le token via l'API
+                statusEl.className = 'status-message show';
+                statusEl.innerHTML = `
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <span>Vérification de votre session...</span>
+                `;
+
+                const response = await fetch(
+                    `${window.API_BASE_URL || 'https://api-bancaire-q6v7.onrender.com/api'}/auth/verify`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ token })
+                    }
+                );
+
+                const data = await response.json();
+
+                if (data.valid) {
+                    // Token valide → rediriger vers le dashboard approprié
+                    statusEl.className = 'status-message success show';
+                    statusEl.innerHTML = `
+                        <i class="fas fa-check-circle"></i>
+                        <span>Session valide. Redirection en cours...</span>
+                    `;
+
+                    // Récupérer le rôle de l'utilisateur
+                    let user = null;
+                    try {
+                        user = JSON.parse(userStr);
+                    } catch (e) {}
+
+                    // Rediriger après un court délai
+                    setTimeout(() => {
+                        if (user?.role === 'admin') {
+                            window.location.href = 'dashboard-admin.html';
+                        } else {
+                            window.location.href = 'dashboard-user.html';
+                        }
+                    }, 1500);
+
+                } else {
+                    // Token invalide → effacer la session et afficher les boutons
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('user');
+
+                    statusEl.className = 'status-message error show';
+                    statusEl.innerHTML = `
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Session expirée. Veuillez vous reconnecter.</span>
+                    `;
+                    buttonsEl.style.display = 'flex';
+                }
+
+            } catch (error) {
+                // Erreur de réseau ou API indisponible
+                console.warn('Erreur vérification session:', error);
+
+                // Si l'API n'est pas accessible, on redirige quand même si le token existe
+                const token = localStorage.getItem('authToken');
+                const userStr = localStorage.getItem('user');
+
+                if (token && userStr) {
+                    // On tente une redirection directe (risque d'erreur)
+                    try {
+                        const user = JSON.parse(userStr);
+                        statusEl.className = 'status-message info show';
+                        statusEl.innerHTML = `
+                            <i class="fas fa-info-circle"></i>
+                            <span>Redirection vers votre espace...</span>
+                        `;
+                        setTimeout(() => {
+                            if (user?.role === 'admin') {
+                                window.location.href = 'dashboard-admin.html';
+                            } else {
+                                window.location.href = 'dashboard-user.html';
+                            }
+                        }, 1000);
+                        return;
+                    } catch (e) {}
+                }
+
+                // Sinon, afficher les boutons de connexion
+                statusEl.className = 'status-message error show';
+                statusEl.innerHTML = `
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Impossible de vérifier votre session. Veuillez vous reconnecter.</span>
+                `;
+                buttonsEl.style.display = 'flex';
+            }
+        })();
+
+        // ============================================
+        // GESTION DU LIEN D'INSCRIPTION (avec onglet)
+        // ============================================
+
+        document.querySelectorAll('a[href="login.html#register"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.location.href = 'login.html?tab=register';
+            });
+        });
+
+        // Si l'URL contient ?tab=register, rediriger vers login.html avec le paramètre
+        if (window.location.search.includes('tab=register')) {
+            window.location.href = 'login.html?tab=register';
+        }
+
+        console.log('🏦 Page d\'accueil chargée');
+        console.log('📊 API URL:', window.API_BASE_URL || 'https://api-bancaire-q6v7.onrender.com/api');
+    </script>
+
+</body>
+</html>
