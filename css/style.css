@@ -29,13 +29,13 @@ body {
 }
 
 /* ============================================
-   NAVBAR
+   NAVBAR (Version responsive et propre)
    ============================================ */
 
 .navbar {
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     color: var(--white);
-    padding: 0 1rem; /* réduit sur mobile */
+    padding: 0 1rem;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -49,8 +49,8 @@ body {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 0; /* un peu d'espace vertical */
-    min-height: 70px; /* hauteur minimale */
+    padding: 0.5rem 0;
+    min-height: 70px;
 }
 
 .logo {
@@ -59,45 +59,19 @@ body {
     gap: 12px;
     font-size: 1.5rem;
     font-weight: 700;
+    order: 0;
 }
 
 .logo i {
     font-size: 2rem;
 }
 
-.nav-links {
-    display: flex;
-    gap: 5px;
-}
-
-.nav-btn {
-    background: transparent;
-    border: none;
-    color: rgba(255, 255, 255, 0.8);
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    transition: var(--transition);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.nav-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: var(--white);
-}
-
-.nav-btn.active {
-    background: rgba(255, 255, 255, 0.25);
-    color: var(--white);
-}
-
 .nav-user {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
+    order: 1;
+    margin-left: auto;
 }
 
 .nav-user span {
@@ -117,6 +91,40 @@ body {
 
 .btn-logout:hover {
     background: rgba(255, 255, 255, 0.35);
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    order: 2;
+    flex: 1 1 100%;
+    justify-content: center;
+    margin-top: 4px;
+}
+
+.nav-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--white);
+}
+
+.nav-btn.active {
+    background: rgba(255, 255, 255, 0.25);
+    color: var(--white);
 }
 
 /* ============================================
@@ -912,104 +920,18 @@ body {
 }
 
 /* ============================================
-   RESPONSIVE
+   RESPONSIVE - MEDIA QUERIES (TOUT EST ICI)
    ============================================ */
 
-@media (max-width: 768px) {
-    .nav-container {
-        flex-wrap: wrap;
-        height: auto;
-        padding: 12px 0;
-    }
-    
+/* --- Desktop (> 768px) --- */
+@media (min-width: 769px) {
     .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
-        gap: 4px;
+        flex: 0 1 auto;
+        order: 0;
+        justify-content: flex-start;
+        gap: 5px;
+        margin-top: 0;
     }
-    
-    .nav-btn {
-        font-size: 0.8rem;
-        padding: 8px 12px;
-    }
-    
-    .main-content {
-        padding: 1rem;
-    }
-    
-    .operations-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .accounts-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .users-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .profile-info {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .stats-grid {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .section-header {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .search-bar {
-        min-width: unset;
-    }
-    
-    .filters {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .modal-content {
-        margin: 20px;
-        padding: 24px;
-    }
-}
-
-@media (max-width: 480px) {
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .user-card {
-        flex-direction: column;
-        gap: 12px;
-        text-align: center;
-    }
-    
-    .user-info {
-        flex-direction: column;
-    }
-    
-    .user-actions {
-        width: 100%;
-        justify-content: center;
-    }
-}
-
-.nav-user {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-left: auto; /* pousse à droite */
-    order: 1; /* entre logo et liens */
-}
-
-/* Sur petit écran, on le place juste après le logo */
-@media (max-width: 768px) {
     .nav-user {
         order: 1;
         margin-left: auto;
@@ -1017,32 +939,13 @@ body {
     .logo {
         order: 0;
     }
-    .nav-links {
-        order: 2;
-        flex-basis: 100%;
-    }
 }
 
-.nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px; /* espacement réduit */
-    order: 2; /* passe en dessous du logo si nécessaire */
-    flex: 1 1 100%; /* prend toute la largeur sur mobile */
-    justify-content: center; /* centre les liens */
-}
-
-/* Sur desktop, on remet en ligne */
-@media (min-width: 769px) {
-    .nav-links {
-        flex: 0 1 auto;
-        order: 0;
-        justify-content: flex-start;
-        gap: 5px;
-    }
-}
-
+/* --- Mobile (≤ 768px) --- */
 @media (max-width: 768px) {
+    .nav-container {
+        padding: 0.5rem 0;
+    }
     .nav-btn {
         font-size: 0.75rem;
         padding: 6px 10px;
@@ -1059,5 +962,78 @@ body {
     .btn-logout {
         padding: 6px 10px;
         font-size: 0.85rem;
+    }
+    .nav-links {
+        gap: 3px;
+    }
+    .main-content {
+        padding: 1rem;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .modal-content {
+        margin: 20px;
+        padding: 24px;
+    }
+    .operations-grid {
+        grid-template-columns: 1fr;
+    }
+    .accounts-grid {
+        grid-template-columns: 1fr;
+    }
+    .users-grid {
+        grid-template-columns: 1fr;
+    }
+    .profile-info {
+        flex-direction: column;
+        text-align: center;
+    }
+    .search-bar {
+        min-width: unset;
+    }
+}
+
+/* --- Très petit écran (≤ 480px) --- */
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .nav-btn {
+        font-size: 0.7rem;
+        padding: 4px 8px;
+    }
+    .logo {
+        font-size: 1rem;
+    }
+    .logo i {
+        font-size: 1.3rem;
+    }
+    .nav-user span {
+        font-size: 0.75rem;
+    }
+    .btn-logout {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+    }
+    .user-card {
+        flex-direction: column;
+        gap: 12px;
+        text-align: center;
+    }
+    .user-info {
+        flex-direction: column;
+    }
+    .user-actions {
+        width: 100%;
+        justify-content: center;
     }
 }
